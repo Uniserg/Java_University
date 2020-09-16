@@ -1,14 +1,11 @@
 package com.company;
 
-import java.util.Arrays;
-import java.util.function.*;
-
 public class Main {
 
     public static void main(String[] args) {
         Matrix a = new Matrix(new double[][]{
-                {1, 2, 3},
-                {2, 1, 3}
+                {1, 2, 2},
+                {2, 1, 2}
         });
         Matrix b = new Matrix(new double[][]{
                 {2, 10, 6},
@@ -41,8 +38,16 @@ public class Main {
         System.out.println(myBox);
 
 
-        SelectionWeight<Integer> mySel = new SelectionWeight<Integer>(new Integer[]{1, 2, 3}, new int[]{1, 2, 10});
+        SelectionWeight<Integer> mySel = new SelectionWeight<>(new Integer[]{1, 2, 3}, new int[]{1, 2, 10});
         System.out.println("Выбор случайного элемента с учетом веса:\n" + mySel.getRandom());
+
+        Field myField = new Field();
+        Field compField = new Field();
+
+        System.out.println("Your field:\n" + myField.toString() + "\n" + "Computer field:\n" + compField.toString());
+
+        Application.run();
+
     }
 }
 

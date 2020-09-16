@@ -12,9 +12,13 @@ public class Matrix {
     }
 
     public Matrix(double[][] array) {
-        matrix = array;
-        rowsLength = matrix.length;
-        columnsLength = matrix[0].length;
+        int columnLen = array[0].length;
+        for (double[] el: array){
+            if (el.length != columnLen) throw new ArrayIndexOutOfBoundsException();
+        }
+            matrix = array;
+            rowsLength = matrix.length;
+            columnsLength = matrix[0].length;
     }
 
     public Matrix add(Matrix b) {
@@ -93,13 +97,12 @@ public class Matrix {
         return result;
     }
 
-
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < rowsLength; i++) {
             for (int j = 0; j < columnsLength; j++) {
-                s.append(String.format("%10.2f", Math.round(matrix[i][j] * 100) / 100.0) + "\t\t");
+                s.append(String.format("%10.2f", Math.round(matrix[i][j] * 100) / 100.0)).append("\t\t");
             }
             s.append('\n');
         }
