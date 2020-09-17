@@ -1,4 +1,6 @@
-package com.company;
+package com.company.Shape;
+
+import com.company.Shape.SolidOfRevolution;
 
 public class Cylinder extends SolidOfRevolution {
     private final double height;

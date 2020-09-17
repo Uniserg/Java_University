@@ -69,6 +69,20 @@ public class Matrix {
         return result;
     }
 
+    public Matrix mul(double b){
+        Matrix result = new Matrix(rowsLength, columnsLength);
+        for (int i = 0; i < rowsLength; i++){
+            for (int j = 0; j < columnsLength; j++){
+                result.matrix[i][j] *= b;
+            }
+        }
+        return result;
+    }
+
+    public static Matrix mul(Matrix a, int b){
+        return a.mul(b);
+    }
+
     public static Matrix mul(Matrix a, Matrix b) {
         return a.mul(b);
     }

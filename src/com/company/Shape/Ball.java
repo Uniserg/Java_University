@@ -1,4 +1,4 @@
-package com.company;
+package com.company.Shape;
 
 public class Ball extends SolidOfRevolution {
     public Ball(double radius){

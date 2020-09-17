@@ -1,4 +1,4 @@
-package com.company;
+package com.company.BattleShipApplication;
 
 import java.util.Random;
 
@@ -15,7 +15,7 @@ public class Field {
         }
         int k = 1;
         int u = 0;
-        TypeShip [] typeShips = TypeShip.values();
+        TypeShip[] typeShips = TypeShip.values();
         for (int i = typeShips.length - 1; i >= 0; i--){
             for (int j = 0; j < k; j++){
                 ships[u++] = generate(typeShips[i]);
@@ -32,10 +32,10 @@ public class Field {
             int dY = (dX == 0) ? 1 : 0;
             if (dX == 0) {
                 ship = new Ship(type, new Point<>(random.nextInt(10),
-                                                  random.nextInt(10 - type.ordinal())), dX, dY);
+                        random.nextInt(10 - type.ordinal())), dX, dY);
             } else {
                 ship = new Ship(type,new Point<>(random.nextInt(10 - type.ordinal()),
-                                                 random.nextInt(10)), dX, dY);
+                        random.nextInt(10)), dX, dY);
             }
 
         }while (!checkLocationShip(ship));
@@ -46,6 +46,13 @@ public class Field {
     private boolean isIntersection(Point<Integer> fromA, Point<Integer> toA, Point<Integer> fromB, Point<Integer> toB){
         return (fromA.x() <= fromB.x() + 1 && fromB.x() + 1 <= toA.x() || fromA.x() <= toB.x() - 1 && toB.x() - 1 <= toA.x()) &&
                 (fromA.y() <= fromB.y() + 1 && fromB.y() + 1 <= toA.y() || fromA.y() <= toB.y() - 1 && toB.y() - 1 <= toA.y());
+    }
+
+    public boolean isEmpty(){
+        for (Ship ship: getShips()){
+            if (ship.getHits() != ship.getType().ordinal() + 1) return false;
+        }
+        return true;
     }
 
     private boolean checkLocationShip(Ship checkingShip){
@@ -74,11 +81,11 @@ public class Field {
         StringBuilder result = new StringBuilder();
 
         for (Ship ship : ships){
-                for (int x = ship.getAreaFrom().x() + 1; x < ship.getAreaTo().x(); x++){
-                    for (int y = ship.getAreaFrom().y() + 1; y < ship.getAreaTo().y(); y++){
-                        field[x][y] = 'S';
-                    }
+            for (int x = ship.getAreaFrom().x() + 1; x < ship.getAreaTo().x(); x++){
+                for (int y = ship.getAreaFrom().y() + 1; y < ship.getAreaTo().y(); y++){
+                    field[x][y] = 'S';
                 }
+            }
         }
 
         for (int i = 0; i < field.length; i ++){

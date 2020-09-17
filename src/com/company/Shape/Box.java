@@ -1,4 +1,6 @@
-package com.company;
+package com.company.Shape;
+import com.company.Shape.Shape;
+
 import java.util.ArrayList;
 
 public class Box extends Shape {
@@ -24,7 +26,7 @@ public class Box extends Shape {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Box [");
         for (int i = 0; i < container.size() - 1;i++){
-            sb.append(container.get(i) + "; ");
+            sb.append(container.get(i)).append("; ");
         }
         sb.append(container.get(container.size() - 1));
         sb.append(']');

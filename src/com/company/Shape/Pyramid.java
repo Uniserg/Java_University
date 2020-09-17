@@ -1,4 +1,6 @@
-package com.company;
+package com.company.Shape;
+
+import com.company.Shape.Shape;
 
 public class Pyramid extends Shape {
     private final double s;

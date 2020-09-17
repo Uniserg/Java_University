@@ -1,4 +1,4 @@
-package com.company;
+package com.company.BattleShipApplication;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -48,13 +48,6 @@ public class Application {
         printEnum();
     }
 
-    private static boolean isFieldEmpty(Field field){
-        for (Ship ship: field.getShips()){
-            if (ship.getHits() != ship.getType().ordinal() + 1) return false;
-        }
-        return true;
-    }
-
     private static void fillArea(Field field, Point<Integer> areaFrom, Point<Integer> areaTo){
         for (int i = Math.max(areaFrom.x(), 0); i <= Math.min(areaTo.x(), 9); i++){
             for (int j = Math.max(areaFrom.y(), 0); j <= Math.min(areaTo.y(), 9); j++){
@@ -81,7 +74,7 @@ public class Application {
                 if (ship.isDestroy()){
                     fillArea(field, ship.getAreaFrom(), ship.getAreaTo());
                     markDestroyed(field, ship.getAreaFrom(), ship.getAreaTo());
-                    isEnd = isFieldEmpty(field);
+                    isEnd = field.isEmpty();
                 }
                 return !isEnd;
             }else {
@@ -94,17 +87,17 @@ public class Application {
     private static boolean isOccupied(int x, int y, Field field) {
         char check = field.getField()[x][y];
         if (check == '*' || check == 'X' || check == 'V') {
-            System.out.println("Данная координата уже была выбрана, попробуйте еще раз...");
+            if (field != userField) System.out.println("Данная координата уже была выбрана, попробуйте еще раз...");
             return true;
         }
         return false;
     }
 
-    private static boolean isIncorrectCoords(int x, int y){
-        if (!(x >= 0 && x < 10 && y >= 0 && y < 10)) {
-            System.out.println("Неверный диапазон координат, попробуйте еще раз...");
+    private static boolean isCorrectCoords(int x, int y){
+        if (x >= 0 && x < 10 && y >= 0 && y < 10) {
             return true;
         }
+        System.out.println("Неверный диапазон координат, попробуйте еще раз...");
         return false;
     }
 
@@ -126,7 +119,7 @@ public class Application {
                 System.out.print("Введите координаты <x> <y> для выстрела: ");
                 x = scanner.nextInt();
                 y = scanner.nextInt();
-            } while (isIncorrectCoords(x, y) || isOccupied(x, y, computerField));
+            } while (!isCorrectCoords(x, y) || isOccupied(x, y, computerField));
         } while (checkHit(x, y, computerField));
     }
 
@@ -147,6 +140,8 @@ public class Application {
     public static void run(){
         userField = new Field();
         computerField = new Field();
+        System.out.println(userField);
+        System.out.println(computerField);
         Process();
     }
 }

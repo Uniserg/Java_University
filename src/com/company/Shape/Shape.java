@@ -1,4 +1,4 @@
-package com.company;
+package com.company.Shape;
 
 public abstract class Shape {
     private final double volume;
