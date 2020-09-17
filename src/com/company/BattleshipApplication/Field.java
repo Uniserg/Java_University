@@ -1,4 +1,4 @@
-package com.company.BattleShipApplication;
+package com.company.BattleshipApplication;
 
 import java.util.Random;
 

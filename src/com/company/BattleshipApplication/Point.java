@@ -1,4 +1,4 @@
-package com.company.BattleShipApplication;
+package com.company.BattleshipApplication;
 
 public class Point<T> {
     private final T x;

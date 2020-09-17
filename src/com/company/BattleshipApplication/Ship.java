@@ -1,4 +1,4 @@
-package com.company.BattleShipApplication;
+package com.company.BattleshipApplication;
 
 enum TypeShip{
     singleDeck,
