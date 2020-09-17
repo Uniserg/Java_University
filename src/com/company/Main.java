@@ -1,6 +1,7 @@
 package com.company;
 
-import com.company.CollectionTask.*;
+import com.company.BattleshipApplication.Application;
+import com.company.CollectionTask.CollectionTask;
 import com.company.Shape.*;
 
 import java.util.ArrayList;
@@ -64,8 +65,7 @@ public class Main {
         System.out.println("Выбор случайного элемента с учетом веса: " + mySel.getRandom());
 
 
-
-//        Application.run(); -> МОРСКОЙ БОЙ
+        Application.run();
 
 
         System.out.println("*".repeat(repeating));
