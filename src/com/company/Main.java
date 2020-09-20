@@ -1,11 +1,11 @@
 package com.company;
 
-import com.company.BattleshipApplication.Application;
 import com.company.CollectionTask.CollectionTask;
 import com.company.Shape.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Main {
@@ -19,7 +19,7 @@ public class Main {
         });
         Matrix b = new Matrix(new double[][]{
                 {2, 10, 6},
-                {6, 5 , 5},
+                {6, 5, 5},
                 {1, 3, 2}
         });
 
@@ -65,7 +65,7 @@ public class Main {
         System.out.println("Выбор случайного элемента с учетом веса: " + mySel.getRandom());
 
 
-        Application.run();
+//        Application.run();
 
 
         System.out.println("*".repeat(repeating));
@@ -78,9 +78,20 @@ public class Main {
         int m = 20000;
         double tArrayList = CollectionTask.measureTime(new ArrayList<>(), n, m);
         double tLinkedList = CollectionTask.measureTime(new LinkedList<>(), n, m);
-        System.out.println("Время работы ArrayList("+ n + ", " + m + ")" + " = " + tArrayList);
-        System.out.println("Время работы LinkedList("+ n + ", " + m + ")" + " = " + tLinkedList);
+        System.out.println("Время работы ArrayList(" + n + ", " + m + ")" + " = " + tArrayList);
+        System.out.println("Время работы LinkedList(" + n + ", " + m + ")" + " = " + tLinkedList);
 
+        var dict = CollectionTask.FrequencyDict();
+        System.out.println();
+
+        int count = 0;
+
+        for (Iterator<String> it = dict.keySet().stream().sorted().iterator(); it.hasNext(); ) {
+            Object s = it.next();
+            count += dict.get(s);
+            System.out.println(s + ": " + dict.get(s));
+        }
+        System.out.println(count);
     }
 }
 
