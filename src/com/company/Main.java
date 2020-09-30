@@ -1,23 +1,20 @@
 package com.company;
 
-import com.company.CollectionTask.CollectionTask;
+import com.company.CollectionTask.*;
 import com.company.Shape.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
         int repeating = 100;
 
-        Matrix a = new Matrix(new double[][]{
+        Matrix A = new Matrix(new double[][]{
                 {1, 2, 2},
                 {2, 1, 2}
         });
-        Matrix b = new Matrix(new double[][]{
+        Matrix B = new Matrix(new double[][]{
                 {2, 10, 6},
                 {6, 5, 5},
                 {1, 3, 2}
@@ -27,10 +24,10 @@ public class Main {
         System.out.println("*".repeat(repeating));
         System.out.println("<Задание на матрицы>\n");
 
-        Matrix c = a.mul(b);
-        System.out.println("Перемножение матриц:\n" + c);
-        System.out.println("Транспонирование:\n" + c.transpose());
-        System.out.println("Возведение в степень:\n" + b.pow(10));
+        Matrix C = A.mul(B);
+        System.out.println("Перемножение матриц:\n" + C);
+        System.out.println("Транспонирование:\n" + C.transpose());
+        System.out.println("Возведение в степень:\n" + B.pow(10));
 
 
         System.out.println("*".repeat(repeating));
@@ -38,7 +35,7 @@ public class Main {
 
         System.out.println("Генерация случайных векторов:");
         Vector3D[] D = Vector3D.generateVectors(5);
-        for (var vector: D){
+        for (var vector : D) {
             System.out.println(vector);
         }
 
@@ -53,7 +50,7 @@ public class Main {
                 new Ball(10)
         };
 
-        for (var figure: toAdd){
+        for (var figure : toAdd) {
             System.out.println(myBox.add(figure));
         }
         System.out.println(myBox);
@@ -81,17 +78,54 @@ public class Main {
         System.out.println("Время работы ArrayList(" + n + ", " + m + ")" + " = " + tArrayList);
         System.out.println("Время работы LinkedList(" + n + ", " + m + ")" + " = " + tLinkedList);
 
-        var dict = CollectionTask.FrequencyDict();
+//        var dict = CollectionTask.FrequencyDict();
+//        System.out.println();
+//        int count = 0;
+//        for (Iterator<String> it = dict.keySet().stream().sorted().iterator(); it.hasNext(); ) {
+//            Object s = it.next();
+//            count += dict.get(s);
+//            System.out.println(s + ": " + dict.get(s));
+//        }
+//        System.out.println(count);
+
+        HashMap<Character, Integer> myDict = new HashMap<>();
+        myDict.put('A', 1);
+        var swapping = CollectionTask.Swap(myDict);
+        System.out.println(swapping.get(1));
+        Integer[][] twoArray = new Integer[][]{{3, 2, 2}, {1, 2}, {1}, {5, 3, 1, 0}};
+        Iterator<Integer> it1 = new TwoDimensionalArrayIterator<>(twoArray);
+        Object[] array = new Object[]{3, 1, 1, it1, 1, 3, 0, 4};
+        Iterator it2 = new ArrayIterator(array);
+
+        Object[][] array2 = new Object[][]{
+                {3, 4, it2},
+                {new TwoDimensionalArrayIterator<>(twoArray), 1, 0},
+                {5, 1, new ArrayIterator<>(new String[]{"Hello", "Java", "and", "COFFEE", "!!"})},
+                {2, 4, 0},
+        };
+
+        TwoDimensionalArrayIterator it3 = new TwoDimensionalArrayIterator(array2);
+//        while (it1.hasNext()) {
+//            System.out.print(it1.next() + " ");
+//        }
+
         System.out.println();
 
-        int count = 0;
+//        IteratorsIterator<Integer> twoDimIterator = new IteratorsIterator<>(iters);
+//        while (twoDimIterator.hasNext()) {
+//            System.out.print(twoDimIterator.next() + " ");
+//        }
+//        System.out.println();
 
-        for (Iterator<String> it = dict.keySet().stream().sorted().iterator(); it.hasNext(); ) {
-            Object s = it.next();
-            count += dict.get(s);
-            System.out.println(s + ": " + dict.get(s));
+//        Iterator It = new ArrayIterator(array);
+
+        RecursiveIterator recIt = new RecursiveIterator(it3);
+
+        FlatIterator flIt = new FlatIterator(recIt);
+        while (flIt.hasNext()) {
+            System.out.print(flIt.next() + " ");
         }
-        System.out.println(count);
+
     }
 }
 

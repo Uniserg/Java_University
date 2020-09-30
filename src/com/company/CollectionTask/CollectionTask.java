@@ -49,4 +49,19 @@ public class CollectionTask{
         }
         return result;
     }
+
+    public static <K, V> HashMap<V, HashSet<K>> Swap(HashMap<? extends K, ? extends V> dict) {
+        HashMap<V, HashSet<K>> result = new HashMap<>();
+
+        for (K key : dict.keySet()) {
+            result.compute(dict.get(key), (v, ks) -> {
+                if (ks == null) {
+                    ks = new HashSet<>();
+                }
+                ks.add(key);
+                return ks;
+            });
+        }
+        return result;
+    }
 }
