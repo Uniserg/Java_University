@@ -1,13 +1,18 @@
 package com.company;
 
 import com.company.CollectionTask.*;
+import com.company.ConvertT.Temperature;
 import com.company.Shape.*;
+import com.company.StringBuilder.NotifyingStringBuilder;
+import com.company.StringBuilder.UndoableStringBuilder;
+import com.company.StringBuilder.myNotifier;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         int repeating = 100;
 
         Matrix A = new Matrix(new double[][]{
@@ -105,11 +110,27 @@ public class Main {
         };
 
         TwoDimensionalArrayIterator it3 = new TwoDimensionalArrayIterator(array2);
+        Map<Character, Integer> d = Map.of('a', 1, 'b', 2);
+        HashMap<Character, Integer> myD = new HashMap<>() {{
+            put('a', 1);
+            put('b', 2);
+
+        }};
+
 //        while (it1.hasNext()) {
 //            System.out.print(it1.next() + " ");
 //        }
 
         System.out.println();
+        List<Integer> myL = Arrays.asList(4, 2, 6, 8, 0, 5);
+        Integer[] arr = new Integer[myL.size()];
+        Arrays.setAll(arr, e -> e);
+        Arrays.sort(arr, (Comparator.comparingInt(myL::get)));
+        Arrays.stream(arr).forEach(e -> System.out.print(e + " "));
+        System.out.println();
+
+
+//        Arrays.stream(IntStream.range(0, myL.size()).toArray()).sorted((o1, o2) -> Integer.compare(o1, o2))
 
 //        IteratorsIterator<Integer> twoDimIterator = new IteratorsIterator<>(iters);
 //        while (twoDimIterator.hasNext()) {
@@ -126,6 +147,109 @@ public class Main {
             System.out.print(flIt.next() + " ");
         }
 
+        System.out.println();
+        HashMap<Car, Integer> cars = new HashMap<>();
+        cars.put(new Passenger("BMW 321", "blue", 210, "up", 130, 1400000, "BMW"), 2);
+        cars.put(new Passenger("Mercedes 213", "blue", 210, "up", 130, 1400000, "Mercedes"), 1);
+        Garage garage = new Garage();
+        garage.setCars(cars);
+        garage.printSortKey();
+        HashMap<Character, Function<Double, Double>> funcs = new HashMap<>();
+        funcs.put('C', (x) -> x + 4);
+        System.out.println(funcs.get('C').apply(4d));
+
+        Temperature t = new Temperature(36.6);
+        t.changeSign('K');
+        System.out.println(t.getCurrentValue());
+
+
+        String[] spamKeywords = {"spam", "bad"};
+        int commentMaxLength = 40;
+        TextAnalyzer[] textAnalyzers1 = {
+                new SpamAnalyzer(spamKeywords),
+                new NegativeTextAnalyzer(),
+                new TooLongTextAnalyzer(commentMaxLength)
+        };
+        TextAnalyzer[] textAnalyzers2 = {
+                new SpamAnalyzer(spamKeywords),
+                new TooLongTextAnalyzer(commentMaxLength),
+                new NegativeTextAnalyzer()
+        };
+        TextAnalyzer[] textAnalyzers3 = {
+                new TooLongTextAnalyzer(commentMaxLength),
+                new SpamAnalyzer(spamKeywords),
+                new NegativeTextAnalyzer()
+        };
+        TextAnalyzer[] textAnalyzers4 = {
+                new TooLongTextAnalyzer(commentMaxLength),
+                new NegativeTextAnalyzer(),
+                new SpamAnalyzer(spamKeywords)
+        };
+        TextAnalyzer[] textAnalyzers5 = {
+                new NegativeTextAnalyzer(),
+                new SpamAnalyzer(spamKeywords),
+                new TooLongTextAnalyzer(commentMaxLength)
+        };
+        TextAnalyzer[] textAnalyzers6 = {
+                new NegativeTextAnalyzer(),
+                new TooLongTextAnalyzer(commentMaxLength),
+                new SpamAnalyzer(spamKeywords)
+        };
+        // тестовые комментарии
+        String[] tests = new String[8];
+        tests[0] = "This comment is so good.";                            // OK
+        tests[1] = "This comment is so Loooooooooooooooooooooooooooong."; // TOO_LONG
+        tests[2] = "Very negative comment !!!!=(!!!!;";                   // NEGATIVE_TEXT
+        tests[3] = "Very BAAAAAAAAAAAAAAAAAAAAAAAAD comment with :|;";    // NEGATIVE_TEXT or TOO_LONG
+        tests[4] = "This comment is so bad....";                          // SPAM
+        tests[5] = "The comment is a spam, maybeeeeeeeeeeeeeeeeeeeeee!";  // SPAM or TOO_LONG
+        tests[6] = "Negative bad :( spam.";                               // SPAM or NEGATIVE_TEXT
+        tests[7] = "Very bad, very neg =(, very ..................";      // SPAM or NEGATIVE_TEXT or TOO_LONG
+        TextAnalyzer[][] textAnalyzers = {textAnalyzers1, textAnalyzers2, textAnalyzers3,
+                textAnalyzers4, textAnalyzers5, textAnalyzers6};
+
+        int numberOfAnalyzer; // номер анализатора, указанный в идентификаторе textAnalyzers{№}
+        int numberOfTest = 0; // номер теста, который соответствует индексу тестовых комментариев
+        for (String test : tests) {
+            numberOfAnalyzer = 1;
+            System.out.print("test #" + numberOfTest + ": ");
+            System.out.println(test);
+            for (TextAnalyzer[] analyzers : textAnalyzers) {
+                System.out.print(numberOfAnalyzer + ": ");
+                System.out.println(checkLabels(analyzers, test));
+                numberOfAnalyzer++;
+            }
+            numberOfTest++;
+        }
+
+        UndoableStringBuilder g = new UndoableStringBuilder();
+        StringBuilder ss = new StringBuilder();
+        g.append("2145kss");
+//        g.insert(2, new char[]{'1', '3', 'a', 'j'}, 1, 3);
+//        g.insert(2, "Fuck");
+//        g.appendCodePoint(55);
+        System.out.println(g.toString());
+        g.undo();
+        System.out.println(g.toString());
+
+        NotifyingStringBuilder notifyingStringBuilder = new NotifyingStringBuilder();
+        notifyingStringBuilder.setNotifier(new myNotifier());
+        notifyingStringBuilder.append("Hello");
+        notifyingStringBuilder.append(", ");
+        notifyingStringBuilder.append("World!");
+
     }
+
+
+    public static Label checkLabels(TextAnalyzer[] analyzers, String text) {
+        for (TextAnalyzer analyzer : analyzers) {
+            Label process = analyzer.processText(text);
+            if (process != Label.OK)
+                return process;
+        }
+        return Label.OK;
+    }
+
+
 }
 
