@@ -224,10 +224,9 @@ public class Main {
 
         UndoableStringBuilder g = new UndoableStringBuilder();
         StringBuilder ss = new StringBuilder();
-        g.append("2145kss");
-//        g.insert(2, new char[]{'1', '3', 'a', 'j'}, 1, 3);
-//        g.insert(2, "Fuck");
-//        g.appendCodePoint(55);
+        var appended = g.append("2145kss");
+        g.insert(2, new char[]{'1', '3', 'a', 'j'}, 1, 3);
+        g.appendCodePoint(55);
         System.out.println(g.toString());
         g.undo();
         System.out.println(g.toString());

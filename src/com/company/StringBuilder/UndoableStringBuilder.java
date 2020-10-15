@@ -21,11 +21,8 @@ public class UndoableStringBuilder {
 
     public UndoableStringBuilder reverse() {
         stringBuilder.reverse();
-
         Action action = stringBuilder::reverse;
-
         actions.add(action);
-
         return this;
     }
 
