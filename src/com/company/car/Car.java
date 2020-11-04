@@ -1,4 +1,4 @@
-package com.company;
+package com.company.car;
 
 public abstract class Car implements Comparable {
     private String name;

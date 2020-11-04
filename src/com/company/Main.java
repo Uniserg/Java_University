@@ -6,15 +6,66 @@ import com.company.Shape.*;
 import com.company.StringBuilder.NotifyingStringBuilder;
 import com.company.StringBuilder.UndoableStringBuilder;
 import com.company.StringBuilder.myNotifier;
+import com.company.cafe.Cafe;
+import com.company.cafe.Food;
+import com.company.cafe.Order;
+import com.company.car.Car;
+import com.company.car.Garage;
+import com.company.car.Passenger;
+import com.company.employees.Employee;
+import com.company.employees.Employees;
+import com.company.employees.FixedSalary;
+import com.company.employees.HourlySalary;
 
 import java.util.*;
 import java.util.function.Function;
 
+
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-        int repeating = 100;
+    public static String getCallerClassAndMethodName() {
+        Throwable throwable = new Throwable();
+        StackTraceElement[] runner = throwable.getStackTrace();
+        if (runner.length < 3)
+            return null;
 
+        return runner[2].getClassName() + "#" + runner[2].getMethodName();
+    }
+
+    public static void anotherMethod() {
+        System.out.println(getCallerClassAndMethodName());
+    }
+
+    public static void m1() {
+        System.out.println(getCallerClassAndMethodName());
+        m2();
+    }
+
+    public static void m2() {
+        System.out.println(getCallerClassAndMethodName());
+        m3();
+    }
+
+    public static void m3() {
+        System.out.println(getCallerClassAndMethodName());
+    }
+
+    public static double sqrt(double x) {
+        if (x < 0) {
+            throw new IllegalArgumentException("Expected non-negative number, got " + x);
+        }
+
+        return Math.sqrt(x);
+
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        anotherMethod();
+        System.out.println(getCallerClassAndMethodName());
+        m1();
+
+        int repeating = 100;
         Matrix A = new Matrix(new double[][]{
                 {1, 2, 2},
                 {2, 1, 2}
@@ -237,8 +288,100 @@ public class Main {
         notifyingStringBuilder.append(", ");
         notifyingStringBuilder.append("World!");
 
+//        var game = new CrossZero(3, 3);
+//        game.run();
+
+        Integer[] test = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        System.out.println(Arrays.toString(FilterArray(test, x -> x % 2 == 0)));
+
+        Employees emp = new Employees();
+        emp.add(new FixedSalary("Sergei", "Tkachev", 166400));
+        emp.add(new HourlySalary("Artem", "Bakanov", 1000));
+
+        for (Employee e : emp.getEmployees()) {
+            System.out.println(e.getLastName() + " " + e.getFirstName() + " " + e.getAverageMonthlySalary());
+        }
+
+
+        //CAFE
+        ArrayList<Food> menuForBar = new ArrayList<>(
+                Arrays.asList(
+                        new Food("Коктейль", "-", 110, 120),
+                        new Food("Кола", "-", 100, 1000),
+                        new Food("Пиво", "-", 130, 250)
+                ));
+        ArrayList<Food> menuForKitchen = new ArrayList<>(
+                Arrays.asList(
+                        new Food("Креветки", "-", 150, 250),
+                        new Food("Бургер", "-", 150, 120),
+                        new Food("Шашлык", "-", 240, 150),
+                        new Food("Пицца", "-", 350, 250),
+                        new Food("Блинчики", "-", 160, 200)
+                ));
+
+        ArrayList<Food> stopListOfCafe = new ArrayList<>(
+                Arrays.asList(
+                        menuForKitchen.get(0),
+                        menuForKitchen.get(2),
+                        menuForBar.get(0)
+                ));
+
+        Cafe cafe = new Cafe(menuForKitchen, menuForBar, stopListOfCafe);
+
+        cafe.setKitchen(menuForKitchen); // Создание нового меню
+
+
+        System.out.println("\nДОБАВЛЕНИЕ ЗАКАЗОВ\n");
+
+        //Добавление блюд в заказ с учетом стоп листа из меню бара
+        for (int i = 0; i < 10; i++) {
+            cafe.addOrder(generateOrder(cafe.getBarToday()));
+        }
+
+        //Добавление блюда из меню кухни
+        for (int i = 0; i < 10; i++) {
+            cafe.addOrder(generateOrder(cafe.getKitchenToday()));
+        }
+
+        cafe.getOrders().forEach(order1 -> {
+            System.out.println(order1 + "\n");
+        });
+
+
+        System.out.println("\nЗАКРЫТИЕ ЗАКАЗОВ\n");
+        for (int i = 0; i < 4; i++) {
+            cafe.closeOrder(cafe.getOrders().get(i));
+        }
+
+        cafe.getOrders().forEach(order1 -> {
+            System.out.println(order1 + "\n");
+        });
+
+
     }
 
+    public static Order generateOrder(ArrayList<Food> menu) {
+        Random random = new Random();
+        int n = menu.size();
+
+        Order order = new Order(new Date());
+        for (int i = 0; i < 7; i++) {
+            order.add(menu.get(random.nextInt(n)));
+        }
+
+        return order;
+    }
+
+    public static <T> T[] FilterArray(T[] array, Function<T, Boolean> filter) {
+        int c = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (filter.apply(array[i])) {
+                array[c] = array[i];
+                c++;
+            }
+        }
+        return Arrays.copyOf(array, c);
+    }
 
     public static Label checkLabels(TextAnalyzer[] analyzers, String text) {
         for (TextAnalyzer analyzer : analyzers) {
@@ -248,7 +391,6 @@ public class Main {
         }
         return Label.OK;
     }
-
 
 }
 

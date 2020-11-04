@@ -1,4 +1,4 @@
-package com.company;
+package com.company.car;
 
 public class Passenger extends Car {
     private final String brand;
