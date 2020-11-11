@@ -6,16 +6,15 @@ import com.company.Shape.*;
 import com.company.StringBuilder.NotifyingStringBuilder;
 import com.company.StringBuilder.UndoableStringBuilder;
 import com.company.StringBuilder.myNotifier;
-import com.company.cafe.Cafe;
+import com.company.binarytree.BinaryTree;
 import com.company.cafe.Food;
 import com.company.cafe.Order;
 import com.company.car.Car;
 import com.company.car.Garage;
 import com.company.car.Passenger;
-import com.company.employees.Employee;
-import com.company.employees.Employees;
-import com.company.employees.FixedSalary;
-import com.company.employees.HourlySalary;
+import com.company.checkelement.CheckElementR;
+import com.company.findsolution.FindSolution;
+import com.company.getenumr.GetEnumR;
 
 import java.util.*;
 import java.util.function.Function;
@@ -57,6 +56,12 @@ public class Main {
 
         return Math.sqrt(x);
 
+    }
+
+    public static void clock(Runnable f) {
+        double t1 = System.currentTimeMillis();
+        f.run();
+        System.out.println((System.currentTimeMillis() - t1) / 1000 + " sec");
     }
 
     public static void main(String[] args) throws Exception {
@@ -214,64 +219,64 @@ public class Main {
         System.out.println(t.getCurrentValue());
 
 
-        String[] spamKeywords = {"spam", "bad"};
-        int commentMaxLength = 40;
-        TextAnalyzer[] textAnalyzers1 = {
-                new SpamAnalyzer(spamKeywords),
-                new NegativeTextAnalyzer(),
-                new TooLongTextAnalyzer(commentMaxLength)
-        };
-        TextAnalyzer[] textAnalyzers2 = {
-                new SpamAnalyzer(spamKeywords),
-                new TooLongTextAnalyzer(commentMaxLength),
-                new NegativeTextAnalyzer()
-        };
-        TextAnalyzer[] textAnalyzers3 = {
-                new TooLongTextAnalyzer(commentMaxLength),
-                new SpamAnalyzer(spamKeywords),
-                new NegativeTextAnalyzer()
-        };
-        TextAnalyzer[] textAnalyzers4 = {
-                new TooLongTextAnalyzer(commentMaxLength),
-                new NegativeTextAnalyzer(),
-                new SpamAnalyzer(spamKeywords)
-        };
-        TextAnalyzer[] textAnalyzers5 = {
-                new NegativeTextAnalyzer(),
-                new SpamAnalyzer(spamKeywords),
-                new TooLongTextAnalyzer(commentMaxLength)
-        };
-        TextAnalyzer[] textAnalyzers6 = {
-                new NegativeTextAnalyzer(),
-                new TooLongTextAnalyzer(commentMaxLength),
-                new SpamAnalyzer(spamKeywords)
-        };
-        // тестовые комментарии
-        String[] tests = new String[8];
-        tests[0] = "This comment is so good.";                            // OK
-        tests[1] = "This comment is so Loooooooooooooooooooooooooooong."; // TOO_LONG
-        tests[2] = "Very negative comment !!!!=(!!!!;";                   // NEGATIVE_TEXT
-        tests[3] = "Very BAAAAAAAAAAAAAAAAAAAAAAAAD comment with :|;";    // NEGATIVE_TEXT or TOO_LONG
-        tests[4] = "This comment is so bad....";                          // SPAM
-        tests[5] = "The comment is a spam, maybeeeeeeeeeeeeeeeeeeeeee!";  // SPAM or TOO_LONG
-        tests[6] = "Negative bad :( spam.";                               // SPAM or NEGATIVE_TEXT
-        tests[7] = "Very bad, very neg =(, very ..................";      // SPAM or NEGATIVE_TEXT or TOO_LONG
-        TextAnalyzer[][] textAnalyzers = {textAnalyzers1, textAnalyzers2, textAnalyzers3,
-                textAnalyzers4, textAnalyzers5, textAnalyzers6};
-
-        int numberOfAnalyzer; // номер анализатора, указанный в идентификаторе textAnalyzers{№}
-        int numberOfTest = 0; // номер теста, который соответствует индексу тестовых комментариев
-        for (String test : tests) {
-            numberOfAnalyzer = 1;
-            System.out.print("test #" + numberOfTest + ": ");
-            System.out.println(test);
-            for (TextAnalyzer[] analyzers : textAnalyzers) {
-                System.out.print(numberOfAnalyzer + ": ");
-                System.out.println(checkLabels(analyzers, test));
-                numberOfAnalyzer++;
-            }
-            numberOfTest++;
-        }
+//        String[] spamKeywords = {"spam", "bad"};
+//        int commentMaxLength = 40;
+//        TextAnalyzer[] textAnalyzers1 = {
+//                new SpamAnalyzer(spamKeywords),
+//                new NegativeTextAnalyzer(),
+//                new TooLongTextAnalyzer(commentMaxLength)
+//        };
+//        TextAnalyzer[] textAnalyzers2 = {
+//                new SpamAnalyzer(spamKeywords),
+//                new TooLongTextAnalyzer(commentMaxLength),
+//                new NegativeTextAnalyzer()
+//        };
+//        TextAnalyzer[] textAnalyzers3 = {
+//                new TooLongTextAnalyzer(commentMaxLength),
+//                new SpamAnalyzer(spamKeywords),
+//                new NegativeTextAnalyzer()
+//        };
+//        TextAnalyzer[] textAnalyzers4 = {
+//                new TooLongTextAnalyzer(commentMaxLength),
+//                new NegativeTextAnalyzer(),
+//                new SpamAnalyzer(spamKeywords)
+//        };
+//        TextAnalyzer[] textAnalyzers5 = {
+//                new NegativeTextAnalyzer(),
+//                new SpamAnalyzer(spamKeywords),
+//                new TooLongTextAnalyzer(commentMaxLength)
+//        };
+//        TextAnalyzer[] textAnalyzers6 = {
+//                new NegativeTextAnalyzer(),
+//                new TooLongTextAnalyzer(commentMaxLength),
+//                new SpamAnalyzer(spamKeywords)
+//        };
+//        // тестовые комментарии
+//        String[] tests = new String[8];
+//        tests[0] = "This comment is so good.";                            // OK
+//        tests[1] = "This comment is so Loooooooooooooooooooooooooooong."; // TOO_LONG
+//        tests[2] = "Very negative comment !!!!=(!!!!;";                   // NEGATIVE_TEXT
+//        tests[3] = "Very BAAAAAAAAAAAAAAAAAAAAAAAAD comment with :|;";    // NEGATIVE_TEXT or TOO_LONG
+//        tests[4] = "This comment is so bad....";                          // SPAM
+//        tests[5] = "The comment is a spam, maybeeeeeeeeeeeeeeeeeeeeee!";  // SPAM or TOO_LONG
+//        tests[6] = "Negative bad :( spam.";                               // SPAM or NEGATIVE_TEXT
+//        tests[7] = "Very bad, very neg =(, very ..................";      // SPAM or NEGATIVE_TEXT or TOO_LONG
+//        TextAnalyzer[][] textAnalyzers = {textAnalyzers1, textAnalyzers2, textAnalyzers3,
+//                textAnalyzers4, textAnalyzers5, textAnalyzers6};
+//
+//        int numberOfAnalyzer; // номер анализатора, указанный в идентификаторе textAnalyzers{№}
+//        int numberOfTest = 0; // номер теста, который соответствует индексу тестовых комментариев
+//        for (String test : tests) {
+//            numberOfAnalyzer = 1;
+//            System.out.print("test #" + numberOfTest + ": ");
+//            System.out.println(test);
+//            for (TextAnalyzer[] analyzers : textAnalyzers) {
+//                System.out.print(numberOfAnalyzer + ": ");
+//                System.out.println(checkLabels(analyzers, test));
+//                numberOfAnalyzer++;
+//            }
+//            numberOfTest++;
+//        }
 
         UndoableStringBuilder g = new UndoableStringBuilder();
         StringBuilder ss = new StringBuilder();
@@ -291,72 +296,133 @@ public class Main {
 //        var game = new CrossZero(3, 3);
 //        game.run();
 
-        Integer[] test = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        System.out.println(Arrays.toString(FilterArray(test, x -> x % 2 == 0)));
+//        Integer[] test = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+//        System.out.println(Arrays.toString(FilterArray(test, x -> x % 2 == 0)));
+//
+//        Employees emp = new Employees();
+//        emp.add(new FixedSalary("Sergei", "Tkachev", 166400));
+//        emp.add(new HourlySalary("Artem", "Bakanov", 1000));
+//
+//        for (Employee e : emp.getEmployees()) {
+//            System.out.println(e.getLastName() + " " + e.getFirstName() + " " + e.getAverageMonthlySalary());
+//        }
+//
+//
+//        //CAFE
+//        ArrayList<Food> menuForBar = new ArrayList<>(
+//                Arrays.asList(
+//                        new Food("Коктейль", "-", 110, 120),
+//                        new Food("Кола", "-", 100, 1000),
+//                        new Food("Пиво", "-", 130, 250)
+//                ));
+//        ArrayList<Food> menuForKitchen = new ArrayList<>(
+//                Arrays.asList(
+//                        new Food("Креветки", "-", 150, 250),
+//                        new Food("Бургер", "-", 150, 120),
+//                        new Food("Шашлык", "-", 240, 150),
+//                        new Food("Пицца", "-", 350, 250),
+//                        new Food("Блинчики", "-", 160, 200)
+//                ));
+//
+//        ArrayList<Food> stopListOfCafe = new ArrayList<>(
+//                Arrays.asList(
+//                        menuForKitchen.get(0),
+//                        menuForKitchen.get(2),
+//                        menuForBar.get(0)
+//                ));
+//
+//        Cafe cafe = new Cafe(menuForKitchen, menuForBar, stopListOfCafe);
+//
+//        cafe.setKitchen(menuForKitchen); // Создание нового меню
+//
+//
+//        System.out.println("\nДОБАВЛЕНИЕ ЗАКАЗОВ\n");
+//
+//        //Добавление блюд в заказ с учетом стоп листа из меню бара
+//        for (int i = 0; i < 10; i++) {
+//            cafe.addOrder(generateOrder(cafe.getBarToday()));
+//        }
+//
+//        //Добавление блюда из меню кухни
+//        for (int i = 0; i < 10; i++) {
+//            cafe.addOrder(generateOrder(cafe.getKitchenToday()));
+//        }
+//
+//        cafe.getOrders().forEach(order1 -> {
+//            System.out.println(order1 + "\n");
+//        });
+//
+//
+//        System.out.println("\nЗАКРЫТИЕ ЗАКАЗОВ\n");
+//        for (int i = 0; i < 4; i++) {
+//            cafe.closeOrder(cafe.getOrders().get(i));
+//        }
+//
+//        cafe.getOrders().forEach(order1 -> {
+//            System.out.println(order1 + "\n");
+//        });
 
-        Employees emp = new Employees();
-        emp.add(new FixedSalary("Sergei", "Tkachev", 166400));
-        emp.add(new HourlySalary("Artem", "Bakanov", 1000));
+        System.out.println("*".repeat(repeating) + "\nВЫВОД ПОСЛЕДОВАТЕЛЬНОСТИ (РЕКУРСИЯ)\n");
 
-        for (Employee e : emp.getEmployees()) {
-            System.out.println(e.getLastName() + " " + e.getFirstName() + " " + e.getAverageMonthlySalary());
+        GetEnumR myEnumR = new GetEnumR();
+        myEnumR.printEnum(10);
+        System.out.println();
+
+        System.out.println("*".repeat(repeating) + "\nПОИСК С ПЕРЕБОРОМ ПОСЛЕДОВАТЕЛЬНОСТИ (РЕКУРСИЯ)\n");
+
+        int arraySize = 1000;
+
+        Integer[] myArray = new Integer[arraySize];
+        Random random = new Random();
+        for (int i = 0; i < myArray.length; i++) {
+            myArray[i] = random.nextInt(arraySize);
         }
+        CheckElementR<Integer> elIn = new CheckElementR<Integer>(myArray, 10);
 
+        clock(() -> System.out.println(elIn.check()));
 
-        //CAFE
-        ArrayList<Food> menuForBar = new ArrayList<>(
-                Arrays.asList(
-                        new Food("Коктейль", "-", 110, 120),
-                        new Food("Кола", "-", 100, 1000),
-                        new Food("Пиво", "-", 130, 250)
-                ));
-        ArrayList<Food> menuForKitchen = new ArrayList<>(
-                Arrays.asList(
-                        new Food("Креветки", "-", 150, 250),
-                        new Food("Бургер", "-", 150, 120),
-                        new Food("Шашлык", "-", 240, 150),
-                        new Food("Пицца", "-", 350, 250),
-                        new Food("Блинчики", "-", 160, 200)
-                ));
+        System.out.println("*".repeat(repeating) + "\nБИНАРНОЕ ДЕРЕВО ПОИСКА\n");
+        BinaryTree<Integer> tree = new BinaryTree<>();
 
-        ArrayList<Food> stopListOfCafe = new ArrayList<>(
-                Arrays.asList(
-                        menuForKitchen.get(0),
-                        menuForKitchen.get(2),
-                        menuForBar.get(0)
-                ));
-
-        Cafe cafe = new Cafe(menuForKitchen, menuForBar, stopListOfCafe);
-
-        cafe.setKitchen(menuForKitchen); // Создание нового меню
-
-
-        System.out.println("\nДОБАВЛЕНИЕ ЗАКАЗОВ\n");
-
-        //Добавление блюд в заказ с учетом стоп листа из меню бара
-        for (int i = 0; i < 10; i++) {
-            cafe.addOrder(generateOrder(cafe.getBarToday()));
-        }
-
-        //Добавление блюда из меню кухни
-        for (int i = 0; i < 10; i++) {
-            cafe.addOrder(generateOrder(cafe.getKitchenToday()));
-        }
-
-        cafe.getOrders().forEach(order1 -> {
-            System.out.println(order1 + "\n");
+        System.out.print("Время создания " + arraySize + " элементов: ");
+        clock(() -> {
+            tree.add(myArray);
         });
 
-
-        System.out.println("\nЗАКРЫТИЕ ЗАКАЗОВ\n");
-        for (int i = 0; i < 4; i++) {
-            cafe.closeOrder(cafe.getOrders().get(i));
+        int h = 100000;
+        Integer[] testB = new Integer[h];
+        for (int i = 0; i < testB.length; i++) {
+            testB[i] = random.nextInt(arraySize + 102900);
         }
 
-        cafe.getOrders().forEach(order1 -> {
-            System.out.println(order1 + "\n");
+        System.out.print("Время проверки на вхождения " + h + " элементов: ");
+        clock(() -> {
+            for (Integer integer : testB) {
+                tree.contains(integer);
+            }
         });
 
+        int elTest = 92193;
+        System.out.print("Есть ли элемент " + elTest + " в дереве: ");
+
+        System.out.println(tree.contains(elTest));
+
+        System.out.println("*".repeat(repeating) + "\nМЕТОД ДЕЛЕНИЯ ОТРЕЗКА ПОПОЛАМ (РЕКУРСИЯ)\n");
+        Function<Double, Double> f = new Function<Double, Double>() {
+            @Override
+            public Double apply(Double x) {
+                return x - 6;
+            }
+
+            @Override
+            public String toString() {
+                return "x - 6";
+            }
+        };
+
+        FindSolution finder = new FindSolution(0, 10, f, 10e-6);
+        System.out.println(finder.getFuncS());
+        System.out.println("x = " + finder.getX());
 
     }
 
