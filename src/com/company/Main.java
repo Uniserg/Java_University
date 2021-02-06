@@ -90,7 +90,6 @@ public class Main {
         System.out.println("Транспонирование:\n" + C.transpose());
         System.out.println("Возведение в степень:\n" + B.pow(10));
 
-
         System.out.println("*".repeat(repeating));
         System.out.println("<Задание на векторы>\n");
 
@@ -293,6 +292,7 @@ public class Main {
         notifyingStringBuilder.append(", ");
         notifyingStringBuilder.append("World!");
 
+
 //        var game = new CrossZero(3, 3);
 //        game.run();
 
@@ -424,6 +424,7 @@ public class Main {
         System.out.println(finder.getFuncS());
         System.out.println("x = " + finder.getX());
 
+
     }
 
     public static Order generateOrder(ArrayList<Food> menu) {
@@ -457,6 +458,7 @@ public class Main {
         }
         return Label.OK;
     }
+
 
 }
 
